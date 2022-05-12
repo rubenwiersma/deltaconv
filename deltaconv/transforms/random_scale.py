@@ -1,0 +1,36 @@
+import torch
+
+
+class RandomScale(object):
+    r"""Scales node positions by a randomly sampled factor :math:`s` within a
+    given interval, *e.g.*, resulting in the transformation matrix
+
+    .. math::
+        \begin{bmatrix}
+            s & 0 & 0 \\
+            0 & s & 0 \\
+            0 & 0 & s \\
+        \end{bmatrix}
+
+    for three-dimensional positions.
+
+    Args:
+        scales (tuple): scaling factor interval, e.g. :obj:`(a, b)`, then scale
+            is randomly sampled from the range
+            :math:`a \leq \mathrm{scale} \leq b`.
+    """
+
+    def __init__(self, scales):
+        assert isinstance(scales, (tuple, list)) and len(scales) == 2
+        self.scales = scales
+
+    def __call__(self, data):
+        scale = data.pos.new_empty(3).uniform_(*self.scales)
+        data.pos = data.pos * scale
+        if hasattr(data, 'norm') and data.norm is not None:
+            data.norm = data.norm * (1 / scale)
+            data.norm = data.norm / torch.linalg.norm(data.norm, dim=1, keepdim=True)
+        return data
+
+    def __repr__(self):
+        return '{}({})'.format(self.__class__.__name__, self.scales)

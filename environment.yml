@@ -1,0 +1,21 @@
+channels:
+  - nvidia
+  - pytorch
+  - pyg
+dependencies:
+  - pip=21.2.4
+  - python=3.9.12
+  - setuptools=52.0.0
+  - wheel=0.36.2
+  - nvidia::cudatoolkit=11.3
+  - pytorch::pytorch=1.11.0
+  - pytorch::torchvision
+  - pytorch::torchaudio
+  - pyg::pyg=2.0.4
+  - pip:
+    - progressbar2==4.0.0
+    - tensorboard==2.8.0
+    - jupyter==1.0.0
+    - openmesh==1.2.1
+    - h5py==3.6.0
+    - pytest==7.1.2

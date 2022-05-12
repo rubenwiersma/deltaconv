@@ -1,0 +1,1 @@
+python experiments/train_modelnet.py

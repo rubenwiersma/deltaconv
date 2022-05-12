@@ -1,0 +1,10 @@
+include README.md LICENSE
+include CMakeLists.txt
+recursive-include deps/geometry-central *.cpp *.h *.ipp *.hpp *.cmake CMakeLists.txt
+recursive-include deps/eigen/Eigen *
+include deps/eigen/COPYING*
+include deps/eigen/README.md
+recursive-include deps/pybind11 *.h CMakeLists.txt *.cmake
+recursive-include deltaconv/cpp *.cpp *.h
+recursive-include deltaconv *.py
+exclude dist
