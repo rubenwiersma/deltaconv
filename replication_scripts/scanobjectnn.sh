@@ -1,3 +1,4 @@
+#!/bin/bash
 python experiments/train_scanobjectnn.py
 python experiments/train_scanobjectnn.py --background
 python experiments/train_scanobjectnn.py --background --augmentation PB_T25

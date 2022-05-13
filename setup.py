@@ -59,7 +59,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name='deltaconv',
-    version='0.0.1',
+    version='1.0.0',
     author='Ruben Wiersma',
     author_email="rubenwiersma@gmail.com",
     description='Implementation of DeltaConv: an anisotropic operator for geometric deep learning on point clouds (and other discretizations that will be added in the future).',
@@ -76,8 +76,8 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     packages=setuptools.find_packages(where=".", include=["deltaconv", "deltaconv.*"]),
-    python_requires='>=3.9',
-    install_requires=['numpy', 'torch', 'torch-sparse', 'torch-scatter', 'torch-geometric'],
+    python_requires='>=3.6',
+    install_requires=[],
     ext_modules=[CMakeExtension('.')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,

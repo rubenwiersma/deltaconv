@@ -1,3 +1,4 @@
+#!/bin/bash
 for i in {1 .. 10}
 do
     rm -r experiments/data/shrec/processed
