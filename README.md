@@ -16,9 +16,9 @@ Anisotropic convolution is a central building block of CNNs but challenging to t
 - [Citation](#citations)
 
 ## Installation
-1. Clone this repository with its submodules:
+1. Clone this repository:
 ```bash
-git clone --recurse-submodules https://github.com/rubenwiersma/deltaconv.git
+git clone https://github.com/rubenwiersma/deltaconv.git
 ```
 
 2. Create a conda environment from the `environment.yml`:
@@ -30,6 +30,7 @@ Done!
 
 ### Manual installation
 If you wish to install DeltaConv in your own environment, proceed as follows.
+
 1. Make sure that you have installed:
     - Numpy - `pip install numpy`
     - [PyTorch](https://pytorch.org/get-started/locally/) - see [instructions](https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html)
@@ -39,6 +40,19 @@ If you wish to install DeltaConv in your own environment, proceed as follows.
 ```bash
 pip install deltaconv
 ```
+### Building DeltaConv for yourself
+1. Make sure you clone the repository with submodules:
+```bash
+git clone --recurse-submodules https://github.com/rubenwiersma/deltaconv.git
+```
+If you have already cloned the repository without submodules, you can fix it with `git submodule update --init --recursive`.
+
+2. Install from folder:
+```bash
+cd [root_folder]
+pip install
+```
+
 
 ## Replicating the experiments
 See the README.md in `experiments/replication_scripts` for instructions on replicating the experiments.
