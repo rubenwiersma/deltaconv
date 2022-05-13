@@ -114,7 +114,7 @@ Please cite our paper if this code contributes to an academic publication:
 }
 ```
 
-Some of the farthest point sampling code relies on Geometry Central:
+The farthest point sampling code relies on Geometry Central:
 ```bib
 @misc{geometrycentral,
   title = {geometry-central},
