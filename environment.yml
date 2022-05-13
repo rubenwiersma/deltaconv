@@ -19,4 +19,4 @@ dependencies:
     - openmesh==1.2.1
     - h5py==3.6.0
     - pytest==7.1.2
-    - deltaconv=1.0.0
+    - deltaconv==1.0.0
