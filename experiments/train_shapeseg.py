@@ -76,6 +76,7 @@ def train(args, writer):
         in_channels=3,                          # XYZ coordinates as input
         num_classes=8,                          # There are eight segmentation classes
         conv_channels=[128]*8,                  # We use 8 convolution layers, each with 128 channels
+        # conv_channels=[32]*6,                   # This also works with fewer layers and channels, e.g., 6 layers and 32 channels
         mlp_depth=1,                            # Each convolution uses MLPs with only one layer (i.e., perceptrons)
         embedding_size=512,                     # Embed the features in 512 dimensions after convolutions
         num_neighbors=args.k,                   # The number of neighbors is given as an argument
