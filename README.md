@@ -113,3 +113,24 @@ Please cite our paper if this code contributes to an academic publication:
   publisher = {ACM},
 }
 ```
+
+Some of the farthest point sampling code rely on Geometry Central:
+```bib
+@misc{geometrycentral,
+  title = {geometry-central},
+  author = {Nicholas Sharp and Keenan Crane and others},
+  note = {www.geometry-central.net},
+  year = {2019}
+}
+```
+
+And we make use of PyG (and underlying packages) to load point clouds, compute sparse matrix products, and compute nearest neighbors:
+```bib
+@inproceedings{Fey/Lenssen/2019,
+  title={Fast Graph Representation Learning with {PyTorch Geometric}},
+  author={Fey, Matthias and Lenssen, Jan E.},
+  booktitle={ICLR Workshop on Representation Learning on Graphs and Manifolds},
+  year={2019},
+}
+```
+
