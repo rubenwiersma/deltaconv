@@ -79,7 +79,6 @@ def coords_projected(pos, normal, x_basis, y_basis, edge_index, k=None):
         x_basis (Tensor): an [N, 3] tensor with x basis per point.
         y_basis (Tensor): an [N, 3] tensor with y basis per point.
         edge_index (Tensor): indices of the adjacency matrix of the k-nn graph [2, N * k].
-        dist (Tensor): an [N * k] tensor with the geodesic distance of each edge.
         k (int): the number of neighbors per point.
     """
     row, col = edge_index
@@ -210,6 +209,9 @@ def build_grad_div(pos, normal, x_basis, y_basis, edge_index, batch=None, kernel
             relative to the average edge length in each shape (default: 1).
         regularizer (float: optional): the regularizer parameter
             for weighted least squares fitting (default: 0.001).
+        normalized (bool: optional): Normalizes the operators by the
+            infinity norm if set to True (default: True):
+            G = G / |G|_{\inf}
         shape_regularizer (float: optional): sets the regularizer parameter
             for weighted least squares fitting of the surface, rather than the signal on the surface.
             By default, this is set to None and the same value is used for the surface and the signal.

@@ -19,8 +19,11 @@ class DeltaConv(torch.nn.Module):
         in_channels (int): the number of input channels of the features.
         out_channels (int): the number of output channels after the convolution.
         depth (int, optional): the depth of the MLPs (default: 1).
+        centralized (bool, optional): centralizes the input features
+            before maximum aggregation if set to True (default: False):
+            p_j = p_j - p_i.
         vector (bool, optional): determines whether the vector stream is propagated 
-            set this to false in the last layer of a network that only outputs scalars (default: true).
+            set this to false in the last layer of a network that only outputs scalars (default: True).
         aggr (string, optional): the type of aggregation used in the scalar stream (default: 'max').
     """
     def __init__(self, in_channels, out_channels, depth=1, centralized=False, vector=True, aggr='max'):
