@@ -18,7 +18,7 @@ from utils import calc_loss, calc_shape_IoU
 import sklearn.metrics as metrics
 import numpy as np
 
-from .train_shapenet import shapenet_model
+from train_shapenet import shapenet_model
 
 
 def test(args):

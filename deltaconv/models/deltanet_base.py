@@ -73,7 +73,7 @@ class DeltaNetBase(torch.nn.Module):
         # ---------------------------------
 
         # The scalar features are stored in x
-        x = pos
+        x = data.x if hasattr(data, 'x') and data.x is not None else pos
         # Vector features in v
         v = grad @ x
         
