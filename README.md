@@ -55,15 +55,14 @@ pip install
 
 
 ## Replicating the experiments
-See the README.md in `experiments/replication_scripts` for instructions on replicating the experiments.
+See the README.md in `replication_scripts` for instructions on replicating the experiments and using the pre-trained weights (available in `experiments/pretrained_weights`).
 
-In short, you can run bash scripts to replicate our experiments. For example, training and evaluating ShapeNet:
+In short, you can run bash scripts to replicate our experiments. For example, evaluating pre-trained weights on ShapeNet:
 ```bash
 cd [root_folder]
 conda activate deltaconv
-bash replication_scripts/shapenet.sh
+bash replication_scripts/pretrained/shapenet.sh
 ```
-Pre-trained weights are available in `experiments/pretrained_weights` and scripts to evaluate them in `experiments/replication_scripts/pretrained`.
 
 You can also directly run the python files in `experiments`:
 ```bash
