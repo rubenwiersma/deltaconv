@@ -59,7 +59,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name='deltaconv',
-    version='1.0.1',
+    version='1.0.2',
     author='Ruben Wiersma',
     author_email="rubenwiersma@gmail.com",
     description='Implementation of DeltaConv: an anisotropic operator for geometric deep learning on point clouds (and other discretizations that will be added in the future).',
