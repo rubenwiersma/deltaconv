@@ -43,8 +43,7 @@ def train(args, writer):
     transform = Compose((
         T.RandomScale((0.8, 1.2)),
         T.RandomRotate(360, axis=2),
-        T.RandomTranslateGlobal(0.1),
-        T.RandomNormals(0.01)
+        T.RandomTranslateGlobal(0.1)
     ))
 
     # Load datasets.
