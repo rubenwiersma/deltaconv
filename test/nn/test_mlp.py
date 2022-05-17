@@ -1,4 +1,3 @@
-from tkinter import W
 import torch
 
 from deltaconv.nn import MLP, VectorMLP, ScalarVectorMLP, ScalarVectorIdentity

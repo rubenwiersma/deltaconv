@@ -1,4 +1,5 @@
 import torch
+import torch.linalg as LA
 
 
 class RandomScale(object):
@@ -29,7 +30,7 @@ class RandomScale(object):
         data.pos = data.pos * scale
         if hasattr(data, 'norm') and data.norm is not None:
             data.norm = data.norm * (1 / scale)
-            data.norm = data.norm / torch.linalg.norm(data.norm, dim=1, keepdim=True)
+            data.norm = data.norm / LA.norm(data.norm, dim=1, keepdim=True)
         return data
 
     def __repr__(self):

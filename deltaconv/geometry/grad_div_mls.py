@@ -1,5 +1,5 @@
-from tkinter import W
 import torch
+import torch.linalg as LA
 from torch_sparse import SparseTensor
 from torch_scatter import scatter_add, scatter_max, scatter_mean
 from .utils import batch_dot
@@ -26,11 +26,11 @@ def estimate_basis(pos, edge_index, k=None, orientation=None):
     local_pos = (pos[col] - pos[row]).transpose(-2, -1)
     
     # SVD to estimate bases
-    svd = torch.linalg.svd(local_pos)
+    svd = LA.svd(local_pos)
     
     # Normal corresponds to smallest singular vector and normalize
     normal = svd.U[:, :, 2]
-    normal = normal / torch.linalg.norm(normal, dim=-1, keepdim=True).clamp(EPS)
+    normal = normal / LA.norm(normal, dim=-1, keepdim=True).clamp(EPS)
 
     # If normals are given, orient using the given normals
     if orientation is not None:
@@ -38,11 +38,11 @@ def estimate_basis(pos, edge_index, k=None, orientation=None):
 
     # X axis to largest singular vector and normalize
     x_basis = svd.U[:, :, 0]
-    x_basis = x_basis / torch.linalg.norm(x_basis, dim=-1, keepdim=True).clamp(EPS)
+    x_basis = x_basis / LA.norm(x_basis, dim=-1, keepdim=True).clamp(EPS)
     
     # Create orthonormal basis by taking cross product
     y_basis = torch.cross(normal, x_basis)
-    y_basis = y_basis / torch.linalg.norm(y_basis, dim=-1, keepdim=True).clamp(EPS)
+    y_basis = y_basis / LA.norm(y_basis, dim=-1, keepdim=True).clamp(EPS)
     
     return normal, x_basis, y_basis
 
@@ -61,11 +61,11 @@ def build_tangent_basis(normal):
 
     # Derive x basis using cross product and normalize
     x_basis = torch.cross(testvec, normal)
-    x_basis = x_basis / torch.linalg.norm(x_basis, dim=-1, keepdim=True).clamp(EPS)
+    x_basis = x_basis / LA.norm(x_basis, dim=-1, keepdim=True).clamp(EPS)
 
     # Derive y basis using cross product and normalize
     y_basis = torch.cross(normal, x_basis)
-    y_basis = y_basis / torch.linalg.norm(y_basis, dim=-1, keepdim=True).clamp(EPS)
+    y_basis = y_basis / LA.norm(y_basis, dim=-1, keepdim=True).clamp(EPS)
     return x_basis, y_basis
 
 
@@ -140,13 +140,13 @@ def weighted_least_squares(coords, weights, k, regularizer, shape_regularizer=No
     lI = regularizer * torch.eye(6, 6, device=B.device).unsqueeze(0)
     BT = (weights.view(-1, k, 1) * B).transpose(-2, -1)
     BTB = torch.bmm(BT, B) + lI
-    BTB_inv = torch.linalg.inv(BTB)
+    BTB_inv = LA.inv(BTB)
     wls = torch.bmm(BTB_inv, BT).transpose(-2, -1).reshape(-1, 6)
 
     if shape_regularizer is not None:
         lI = shape_regularizer * torch.eye(6, 6, device=B.device).unsqueeze(0)
         BTB = torch.bmm(BT, B) + lI
-        BTB_inv = torch.linalg.inv(BTB)
+        BTB_inv = LA.inv(BTB)
         wls_shape = torch.bmm(BTB_inv, BT).transpose(-2, -1).reshape(-1, 6)
         return wls, wls_shape
     return wls
@@ -229,7 +229,7 @@ def build_grad_div(pos, normal, x_basis, y_basis, edge_index, batch=None, kernel
     coords = coords_projected(pos, normal, x_basis, y_basis, edge_index, k)
 
     # Compute weights based on distance in euclidean space
-    dist = torch.linalg.norm(pos[col] - pos[row], dim=1)
+    dist = LA.norm(pos[col] - pos[row], dim=1)
     weights = gaussian_weights(dist, k, batch, kernel_width)
     weights[edge_mask.logical_not()] = 0
 
@@ -255,7 +255,7 @@ def build_grad_div(pos, normal, x_basis, y_basis, edge_index, batch=None, kernel
 
     # Normalize
     if normalized:
-        infinity_norm = scatter_max(torch.linalg.norm(scatter_add(torch.abs(grad_values), grad_row, dim=0).view(-1, 2), dim=1), batch)[0]
+        infinity_norm = scatter_max(LA.norm(scatter_add(torch.abs(grad_values), grad_row, dim=0).view(-1, 2), dim=1), batch)[0]
         grad_values = torch.where(torch.repeat_interleave(infinity_norm[batch], 2)[grad_row] > 1e-5, grad_values / torch.repeat_interleave(infinity_norm[batch], 2)[grad_row], grad_values)
 
     # Create gradient matrix

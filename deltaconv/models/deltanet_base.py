@@ -2,7 +2,7 @@ import torch
 from torch_geometric.nn import knn_graph
 
 from ..nn import DeltaConv, MLP
-from ..geometry.grad_div import build_grad_div, build_tangent_basis, estimate_basis
+from ..geometry.grad_div_mls import build_grad_div, build_tangent_basis, estimate_basis
     
 
 class DeltaNetBase(torch.nn.Module):

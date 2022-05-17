@@ -1,4 +1,5 @@
 import torch
+import torch.linalg as LA
 
 
 class NormalizeScale(object):
@@ -12,7 +13,7 @@ class NormalizeScale(object):
         data.pos = data.pos - (torch.max(data.pos, dim=0)[0] + torch.min(data.pos, dim=0)[0]) / 2
 
         if self.scaling_factor is None:
-            scale = (1 / torch.linalg.norm(data.pos, ord=self.norm_ord, dim=1).max()) * 0.999999
+            scale = (1 / LA.norm(data.pos, ord=self.norm_ord, dim=1).max()) * 0.999999
         else:
             scale = (1 / self.scaling_factor) * 0.999999
         data.pos = data.pos * scale

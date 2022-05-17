@@ -1,4 +1,5 @@
 import torch
+import torch.linalg as LA
 from torch import Tensor
 import torch.nn.functional as F
 from torch_geometric.nn.inits import zeros
@@ -64,7 +65,7 @@ class VectorNonLin(torch.nn.Module):
 
         # Compute norm of vector features
         x = x.view(-1, 2, C)
-        norm = torch.linalg.norm(x, dim=1, keepdim=False)
+        norm = LA.norm(x, dim=1, keepdim=False)
 
         # Add a bias or apply batchnorm
         # This bias and batch-norm 'shift' the non-linearity,

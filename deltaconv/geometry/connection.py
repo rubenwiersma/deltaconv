@@ -1,4 +1,5 @@
 import torch
+import torch.linalg as LA
 from .utils import batch_dot
 
 
@@ -16,7 +17,7 @@ def build_transport(target_n, target_x, target_y, source_n, source_x, non_orient
     target_y = torch.where(inverted, -target_y, target_y)
 
     axis = torch.cross(target_n, source_n)
-    axis_norm = torch.linalg.norm(axis, dim=-1, keepdim=True)
+    axis_norm = LA.norm(axis, dim=-1, keepdim=True)
     axis = torch.where(axis_norm > 1e-6, axis / axis_norm, source_x)
 
     angle = angle_in_plane(source_n, target_n, axis)
@@ -27,7 +28,7 @@ def build_transport(target_n, target_x, target_y, source_n, source_x, non_orient
         batch_dot(source_x_in_target_3D, target_y)
     ], dim=1)
 
-    source_x_in_target_norm = torch.linalg.norm(source_x_in_target, dim=-1, keepdim=True)
+    source_x_in_target_norm = LA.norm(source_x_in_target, dim=-1, keepdim=True)
     identity = torch.zeros_like(source_x_in_target)
     identity[:, 0] = 1
     source_x_in_target = torch.where(source_x_in_target_norm > 1e-6, source_x_in_target / source_x_in_target_norm, identity)
@@ -48,9 +49,9 @@ def build_transport(target_n, target_x, target_y, source_n, source_x, non_orient
 
 def angle_in_plane(u, v, normal):
     u_plane = u - batch_dot(u, normal) * normal
-    u_plane = u_plane / torch.linalg.norm(u_plane, dim=-1, keepdim=True).clamp(1e-8)
+    u_plane = u_plane / LA.norm(u_plane, dim=-1, keepdim=True).clamp(1e-8)
     basis_y = torch.cross(normal, u_plane)
-    basis_y = basis_y / torch.linalg.norm(basis_y, dim=-1, keepdim=True).clamp(1e-8)
+    basis_y = basis_y / LA.norm(basis_y, dim=-1, keepdim=True).clamp(1e-8)
 
     x_comp = batch_dot(v, u_plane)
     y_comp = batch_dot(v, basis_y)
@@ -65,7 +66,7 @@ def rotate_around(v, axis, angle):
     parallel_comp = axis * batch_dot(v, axis)
     tangent_comp = v - parallel_comp
 
-    tangent_comp_norm = torch.linalg.norm(tangent_comp, dim=-1, keepdim=True).clamp(1e-8)
+    tangent_comp_norm = LA.norm(tangent_comp, dim=-1, keepdim=True).clamp(1e-8)
     basis_x = tangent_comp / tangent_comp_norm
     basis_y = torch.cross(axis, basis_x)
 

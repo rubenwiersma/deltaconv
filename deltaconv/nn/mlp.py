@@ -1,4 +1,3 @@
-from tkinter import W
 import torch
 from torch.nn import Sequential as Seq, Linear as Lin, BatchNorm1d, LeakyReLU
 

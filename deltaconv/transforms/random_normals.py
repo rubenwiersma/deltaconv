@@ -2,6 +2,7 @@ import numbers
 from itertools import repeat
 
 import torch
+import torch.linalg as LA
 
 
 class RandomNormals(object):
@@ -30,7 +31,7 @@ class RandomNormals(object):
             ts.append(data.pos.new_empty(n).uniform_(-abs(t[d]), abs(t[d])))
 
         data.norm = data.norm + torch.stack(ts, dim=-1)
-        data.norm = data.norm / torch.linalg.norm(data.norm, dim=-1, keepdims=True).clamp(1e-5)
+        data.norm = data.norm / LA.norm(data.norm, dim=-1, keepdims=True).clamp(1e-5)
         return data
 
     def __repr__(self):

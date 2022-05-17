@@ -1,8 +1,8 @@
-from tkinter import W
 import torch
+import torch.linalg as LA
 
 from deltaconv.geometry.connection import *
-from deltaconv.geometry.grad_div import build_tangent_basis
+from deltaconv.geometry.grad_div_mls import build_tangent_basis
 
 
 def test_rotate_around():
@@ -11,7 +11,7 @@ def test_rotate_around():
 
     # Setup random v
     v = torch.rand(N, 3)
-    v = v / torch.linalg.norm(v, dim=1, keepdim=True).clamp(1e-8)
+    v = v / LA.norm(v, dim=1, keepdim=True).clamp(1e-8)
     # Compute an orthogonal vector
     axis, _ = build_tangent_basis(v)
 
@@ -43,7 +43,7 @@ def test_angle_in_plane():
 
     # Transform to a new plane around a random normal
     normal = torch.rand(N, 3)
-    normal = normal / torch.linalg.norm(normal, dim=1, keepdim=True).clamp(1e-8)
+    normal = normal / LA.norm(normal, dim=1, keepdim=True).clamp(1e-8)
     x_basis, y_basis = build_tangent_basis(normal)
     T = torch.stack([x_basis, y_basis, normal], dim=2)
 
@@ -63,7 +63,7 @@ def test_angle_in_plane():
 def test_build_transport():
     N = 1
     target_n = torch.rand(N, 3)
-    target_n = target_n / torch.linalg.norm(target_n, dim=1, keepdim=True).clamp(1e-8)
+    target_n = target_n / LA.norm(target_n, dim=1, keepdim=True).clamp(1e-8)
     target_x, target_y = build_tangent_basis(target_n)
 
     # Create a basis of a neighbor that is rotated around the normal
@@ -72,7 +72,7 @@ def test_build_transport():
     
     # And rotate the basis around some axis that is orthogonal to N
     axis = rotate_around(target_x, target_n, torch.rand(N))
-    axis = axis / torch.linalg.norm(axis, dim=1, keepdim=True).clamp(1e-8)
+    axis = axis / LA.norm(axis, dim=1, keepdim=True).clamp(1e-8)
     basis_angle = torch.rand(N) * 0.5 * torch.pi
     source_n = rotate_around(target_n, axis, basis_angle)
     source_x = rotate_around(source_x, axis, basis_angle)
@@ -86,9 +86,9 @@ def test_build_transport():
     # 2. Connection should be norm-preserving
     out_connection = out_connection.view(-1, 2, 2)
     v = torch.rand(N, 2, 1)
-    v_norm = torch.linalg.norm(v, dim=1)
+    v_norm = LA.norm(v, dim=1)
     v_transported = torch.bmm(out_connection, v)
-    v_transported_norm = torch.linalg.norm(v_transported, dim=1)
+    v_transported_norm = LA.norm(v_transported, dim=1)
     assert torch.allclose(v_norm, v_transported_norm)
 
     # 3. Connection should transport [1, 0] to

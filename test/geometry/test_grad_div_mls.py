@@ -1,8 +1,9 @@
 import torch
+import torch.linalg as LA
 
 from torch_geometric.nn import knn_graph
 
-from deltaconv.geometry.grad_div import *
+from deltaconv.geometry.grad_div_mls import *
 from deltaconv.geometry.utils import batch_dot
 from deltaconv.geometry.operators import curl, hodge_laplacian, laplacian, J
 from deltaconv.geometry.connection import rotate_around
@@ -10,7 +11,7 @@ from deltaconv.geometry.connection import rotate_around
 
 def test_build_tangent_basis():
     normal = torch.rand(100, 3)
-    normal = normal / torch.linalg.norm(normal, dim=1, keepdim=True).clamp(1e-8)
+    normal = normal / LA.norm(normal, dim=1, keepdim=True).clamp(1e-8)
     x_basis, y_basis = build_tangent_basis(normal)
 
     # 1. The basis must be orthonormal
@@ -29,7 +30,7 @@ def test_estimate_basis():
 
     # Generate a random normal 
     normal = torch.rand(1, 3)
-    normal = normal / torch.linalg.norm(normal, dim=1, keepdim=True).clamp(1e-8)
+    normal = normal / LA.norm(normal, dim=1, keepdim=True).clamp(1e-8)
     # And compute an orthonormal basis around the normal
     xy_basis = build_tangent_basis(normal)
     
@@ -66,7 +67,7 @@ def test_coords_projected():
 
     # Generate a random normal 
     normal = torch.rand(1, 3)
-    normal = normal / torch.linalg.norm(normal, dim=1, keepdim=True).clamp(1e-8)
+    normal = normal / LA.norm(normal, dim=1, keepdim=True).clamp(1e-8)
     # And compute an orthonormal basis around the normal
     x_basis, y_basis = build_tangent_basis(normal)
     
@@ -124,7 +125,7 @@ def test_weighted_least_squares():
     # And compute dummy function
     f = (B * coefficients.unsqueeze(1)).sum(dim=-1, keepdim=True) # [N, k, 1]
 
-    dist = torch.linalg.norm(coords, dim=1)
+    dist = LA.norm(coords, dim=1)
     weights = gaussian_weights(dist, k)
     out_wls = weighted_least_squares(coords, weights, k, 0)
     
@@ -205,7 +206,7 @@ def test_fit_vector_mapping():
     ], dim=1) # [N * k, 3]
     # Normal is dfdx x dfdy
     normal = torch.cross(dfdx, dfdy, dim=1) # [N * k, 3]
-    normal = normal / torch.linalg.norm(normal, dim=1, keepdim=True).clamp(1e-8)
+    normal = normal / LA.norm(normal, dim=1, keepdim=True).clamp(1e-8)
 
     # Add a random rotation to each basis
     # Mix the x- and y-basis with random, non-zero weights
@@ -214,14 +215,14 @@ def test_fit_vector_mapping():
     weights[:, 0] = torch.where(torch.rand(N * k) > 0.5, weights[:, 0], -weights[:, 0])
     weights[:, 1] = torch.where(torch.rand(N * k) > 0.5, weights[:, 1], -weights[:, 1])
     # Normalize weights
-    weights = weights / torch.linalg.norm(weights, dim=1, keepdim=True).clamp(1e-8)
+    weights = weights / LA.norm(weights, dim=1, keepdim=True).clamp(1e-8)
     # Don't change center points
     weights = weights.view(N, k, 2)
     weights[:, 0] = weights.new_tensor([1, 0])
     weights = weights.view(N * k, 2)
     # Mix x and y basis
     x_basis = weights[:, 0:1] * dfdx + weights[:, 1:] * dfdy
-    x_basis = x_basis / torch.linalg.norm(x_basis, dim=1, keepdim=True).clamp(1e-8)
+    x_basis = x_basis / LA.norm(x_basis, dim=1, keepdim=True).clamp(1e-8)
     # Recompute y-basis with cross-product between x-basis and normal
     y_basis = torch.cross(normal, x_basis)
 
@@ -255,7 +256,7 @@ def test_fit_vector_mapping():
     ], dim=0)
     # The WLS and fit_vector_mapping code assumes that we projected
     # the coordinates of each neighbor to the tangent plane of the center point.
-    dist = torch.linalg.norm(coords, dim=1)
+    dist = LA.norm(coords, dim=1)
     wls_weights = gaussian_weights(dist, k)
     wls = weighted_least_squares(coords, wls_weights, k, regularizer=0)
 
@@ -319,9 +320,9 @@ def test_build_grad_div():
     ], dim=1) # [N * k, 3]
     # Normal is dfdx x dfdy
     normal = torch.cross(dfdx, dfdy, dim=1) # [N * k, 3]
-    normal = normal / torch.linalg.norm(normal, dim=1, keepdim=True).clamp(1e-8)
+    normal = normal / LA.norm(normal, dim=1, keepdim=True).clamp(1e-8)
     # Normalize x_basis
-    x_basis = dfdx / torch.linalg.norm(dfdx, dim=1, keepdim=True).clamp(1e-8)
+    x_basis = dfdx / LA.norm(dfdx, dim=1, keepdim=True).clamp(1e-8)
     y_basis = torch.cross(normal, x_basis)
 
     edge_index = knn_graph(pos, k, loop=True, flow='target_to_source')
@@ -351,7 +352,7 @@ def test_build_grad_div():
     # We check this with the normalized L1 norm (mean of absolute values)
     assert torch.abs(laplacian(pos.new_ones(N, 1), out_grad, out_div)).mean() < 1e-2
     # 3c. The L1 norm of div grad x should be > 0 for a random function
-    assert torch.linalg.norm(laplacian(torch.rand(N, 1), out_grad, out_div), ord=1) > 0
+    assert LA.norm(laplacian(torch.rand(N, 1), out_grad, out_div), ord=1) > 0
     # 3d. Applying curl grad x should return all 0 for any function
     # We will have some non-zero outliers, e.g., on bounaries, so we'll check the mean
     # of the squared L2 norm (emphasizes lower values).
@@ -373,7 +374,7 @@ def test_build_grad_div():
     # Applying div grad to the point positions should
     # result in the mean curvature vector, pointing roughly along the normal.
     mean_curvature = laplacian(pos, out_grad, out_div)
-    assert torch.allclose(-batch_dot(mean_curvature, normal), torch.linalg.norm(mean_curvature, dim=1, keepdims=True), atol=1e-2)
+    assert torch.allclose(-batch_dot(mean_curvature, normal), LA.norm(mean_curvature, dim=1, keepdims=True), atol=1e-2)
 
     # 5. Coordinate equivariance of gradient/divergence
     # -------------------------------------------------

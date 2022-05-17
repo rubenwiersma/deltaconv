@@ -1,4 +1,5 @@
 import torch
+import torch.linalg as LA
 
 
 class NormalizeArea(object):
@@ -13,7 +14,7 @@ class NormalizeArea(object):
         v, f = data.pos.numpy(), data.face.numpy().T
         e1 = data.pos[data.face[:, 1]] - data.pos[data.face[:, 0]]
         e2 = data.pos[data.face[:, 2]] - data.pos[data.face[:, 0]]
-        area = 1 / torch.sqrt(torch.linalg.norm(torch.linalg.cross(e1, e2, dim=-1), dim=-1).sum() / 2)
+        area = 1 / torch.sqrt(LA.norm(LA.cross(e1, e2, dim=-1), dim=-1).sum() / 2)
         data.pos = data.pos * area
 
         return data

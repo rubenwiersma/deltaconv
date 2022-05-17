@@ -1,9 +1,10 @@
 import torch
+import torch.linalg as LA
 
 def norm(v):
     """Computes the norm of a vector field."""
     _, C = v.size()
-    return torch.linalg.norm(v.view(-1, 2, C), dim=1)
+    return LA.norm(v.view(-1, 2, C), dim=1)
 
 def J(v):
     """Rotates a vector field by 90-degrees counter-clockwise."""

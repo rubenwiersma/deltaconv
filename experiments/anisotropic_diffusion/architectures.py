@@ -1,4 +1,5 @@
 import torch
+import torch.linalg as LA
 import kornia as K
 
 """
@@ -82,7 +83,7 @@ class DeltaNet(torch.nn.Module):
         return x
 
     def v_nonlin(self, v, i):
-        v_mag = torch.linalg.norm(v, dim=2, keepdim=True)
+        v_mag = LA.norm(v, dim=2, keepdim=True)
         v_nonlin = torch.nn.functional.relu(v_mag + self.v_bias[i][None, :, None, None, None])
         v = v * (v_nonlin / v_mag.clip(1e-5))
         return v
