@@ -1,3 +1,4 @@
+import os
 import os.path as osp
 from os import listdir as osls
 import shutil
@@ -5,7 +6,7 @@ import numpy as np
 import progressbar
 
 import torch
-from torch_geometric.data import InMemoryDataset, Data, extract_zip
+from torch_geometric.data import InMemoryDataset, Data, download_url, extract_zip
 import openmesh
 
 class SHREC(InMemoryDataset):
@@ -41,7 +42,7 @@ class SHREC(InMemoryDataset):
             final dataset. (default: :obj:`None`)
     """
 
-    url = 'https://www.dropbox.com/s/w16st84r6wc57u7/shrec_16.tar.gz'
+    url = 'https://dl.dropboxusercontent.com/s/biiwlkkky7bp5ya/shrec_16.zip'
     class_names = [
         'alien',
         'ants',
@@ -95,9 +96,7 @@ class SHREC(InMemoryDataset):
         return len(self.class_names)
 
     def download(self):
-        raise RuntimeError(
-            'Dataset not found. Please download {} from {} and move it to {}'.
-            format(self.raw_file_names, self.url, self.raw_dir))
+        download_url(self.url, self.raw_dir)
 
     def process(self):
         print('Extracting zip...')

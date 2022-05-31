@@ -20,14 +20,8 @@ def train(args, writer):
     # Data preparation
     # ----------------
 
-    # Download shapeseg.zip from https://surfdrive.surf.nl/files/index.php/s/L68uSYpHtfO6dLa
-    # and unzip in experiments/data.
-    # The folder structure in experiments/data should look like:
-    # -------------------
-    # v ShapeSeg
-    #   v raw
-    #     | shapeseg.zip
-    # -------------------
+    # Path to the dataset folder
+    # The dataset will be downloaded if it is not yet available in the given folder.
     path = osp.join(osp.dirname(osp.realpath(__file__)), 'data/ShapeSeg')
 
     # Apply pre-transformations: normalize, get mesh normals, and sample points on the mesh.

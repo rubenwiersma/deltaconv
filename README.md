@@ -82,7 +82,20 @@ tensorboard logdir=experiments/runs/shapenet_all
 The code that was used to generate Figure 2 from the paper and Figure 2 and 3 from the supplement is a notebook in the folder `experiments/anisotropic_diffusion`.
 
 ## Data
-The training scripts assume that you have a `data` folder in `experiments`. ModelNet40 and ShapeNet download the datasets from a public repository. Instructions to download the data for human body shape segmentation, SHREC, and ScanObjectNN are given in the training scripts.
+ModelNet40, ShapeNet, SHREC, and human body shape segmentation automatically download the datasets from a public repository and place them in the correct folder. The data for ScanObjectNN can be downloaded from the ScanObjectNN website: https://hkust-vgd.github.io/scanobjectnn/. Download and extract the files into `experiments/data/ScanObjectNN/raw`. The folder structure in `experiments/data/ScanObjectNN` should look like:
+```
+ScanObjectNN
+└─── raw
+     └─── main_split
+     |    | train_objectdataset.h5
+     |    | test_objectdataset.h5
+     |    | ...
+     |
+     └─── main_split_nobg
+          | train_objectdataset.h5
+          | test_objectdataset.h5
+          | ...
+```
 
 ## Tests
 In the paper, we make statements about a number of properties of DeltaConv that are either a result of prior work or due to the implementation. We created a test suite to ensure that these properties hold for the implementation, along with unit tests for each module. For example:

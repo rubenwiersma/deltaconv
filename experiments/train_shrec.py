@@ -22,14 +22,8 @@ def train(args, writer):
     # Data preparation
     # ----------------
 
-    # Download shrec.zip from https://surfdrive.surf.nl/files/index.php/s/ifhelkX4cd7ky8W
-    # and unzip in experiments/data.
-    # The folder structure in experiments/data should look like:
-    # -------------------
-    # v shrec
-    #   v raw
-    #     | shrec_16.zip
-    # -------------------
+    # Path to the dataset folder
+    # The dataset will be downloaded if it is not yet available in the given folder.
     path = osp.join(osp.dirname(osp.realpath(__file__)), 'data/shrec')
 
     # Pre-transformations: normalize and sample points on the mesh.

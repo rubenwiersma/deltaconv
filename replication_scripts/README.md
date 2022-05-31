@@ -13,7 +13,7 @@ bash replication_scripts/shapenet.sh
 
 ### Paper
 - Table 1: `modelnet40.sh`
-- Table 2: `scanobjectnn.sh`
+- Table 2: `scanobjectnn.sh` - See download instructions in the main readme
 - Table 3: `shrec.sh` - Average the test results afterward
 - Table 4: `shapenet.sh`
 
@@ -25,7 +25,7 @@ bash replication_scripts/shapenet.sh
 
 ### Paper
 - Table 1: `pretrained/modelnet40.sh`
-- Table 2: `pretrained/scanobjectnn.sh`
+- Table 2: `pretrained/scanobjectnn.sh` - See download instructions in the main readme
 - Table 3: `pretrained/shrec.sh` - Average the test results afterward
 - Table 4: `pretrained/shapenet.sh`
 

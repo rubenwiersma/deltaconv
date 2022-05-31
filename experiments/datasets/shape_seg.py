@@ -6,7 +6,7 @@ import progressbar
 
 import openmesh
 import torch
-from torch_geometric.data import InMemoryDataset, extract_zip, Data
+from torch_geometric.data import InMemoryDataset, download_url, extract_zip, Data
 from torch_geometric.io import read_ply
 
 class ShapeSeg(InMemoryDataset):
@@ -46,7 +46,7 @@ class ShapeSeg(InMemoryDataset):
             final dataset. (default: :obj:`None`)
     """
 
-    url = 'https://www.dropbox.com/s/s3n05sw0zg27fz3/human_seg.tar.gz'
+    url = 'https://dl.dropboxusercontent.com/s/b9hukhdufzbpgqj/shapeseg.zip'
     mit_folders = {
         'crane': 18,
         'squat1': 25,
@@ -73,9 +73,7 @@ class ShapeSeg(InMemoryDataset):
         return ['training.pt', 'test.pt']
 
     def download(self):
-        raise RuntimeError(
-            'Dataset not found. Please download {} from {} and move it to {}'.
-            format(self.raw_file_names, self.url, self.raw_dir))
+        download_url(self.url, self.raw_dir)
 
     def process(self):
         print('Extracting zip...')

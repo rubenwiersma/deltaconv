@@ -32,6 +32,8 @@ class ScanObjectNN(InMemoryDataset):
             final dataset. (default: :obj:`None`)
     """
 
+    url =  "https://hkust-vgd.github.io/scanobjectnn/"
+
     def __init__(self, root, background=False, augmentation=None, train=True, transform=None,
                  pre_transform=None, pre_filter=None):
 
@@ -81,7 +83,7 @@ class ScanObjectNN(InMemoryDataset):
     def download(self):
         if (not os.path.exists(os.path.join(self.raw_dir, self.raw_file_names[0]))):
             raise RuntimeError(
-                'Dataset not found, please place the processed h5 files in {}.'.format(self.raw_dir)
+                'Dataset not found, please download the dataset from {} and place the files in {}.'.format(self.url, self.raw_dir)
             )
         return
 
