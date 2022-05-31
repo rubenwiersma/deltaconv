@@ -7,6 +7,7 @@ dependencies:
   - python=3.9.12
   - setuptools=52.0.0
   - wheel=0.36.2
+  - protobuf~=3.19.0
   - nvidia::cudatoolkit=11.3
   - pytorch::pytorch=1.11.0
   - pytorch::torchvision
