@@ -173,7 +173,7 @@ class EdgeNet(torch.nn.Module):
             x_unfold = torch.nn.functional.unfold(x, kernel_size=3, padding=1).view(x_sh[0], x_sh[1], -1, x_sh[2], x_sh[3])
 
             # Compute edge feature by taking the difference between the center pixel and its neighbors
-            x_edge = torch.cat([x_unfold[:, :, 0:1].expand(-1, -1, 9, -1, -1), x_unfold - x_unfold[:, :, 0:1]], dim=1)
+            x_edge = torch.cat([x_unfold[:, :, 4:5].expand(-1, -1, 9, -1, -1), x_unfold - x_unfold[:, :, 4:5]], dim=1)
             x_edge = x_edge.view(x_sh[0], x_sh[1] * 2, -1, x_sh[2] * x_sh[3])
 
             # Apply the MLP and aggregate with maximum aggregation 
