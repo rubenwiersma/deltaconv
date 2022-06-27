@@ -2,10 +2,8 @@ import torch
 
 
 class NormalizeAxes(object):
-    r"""Rotates all points so that the eigenvectors overlie the axes of the
-    Cartesian coordinate system.
-    If the data additionally holds normals saved in :obj:`data.norm` these will
-    be also rotated.
+    r"""Permutes the axes such that the axes are sorted from smallest to widest
+    standard deviation.
 
     Args:
         max_points (int, optional): If set to a value greater than :obj:`0`,

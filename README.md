@@ -1,5 +1,5 @@
 # DeltaConv
-[[Paper]](https://rubenwiersma.nl/assets/pdf/DeltaConv.pdf) [[Project page]](https://rubenwiersma.nl/deltaconv)
+[[Paper]](https://rubenwiersma.nl/assets/pdf/DeltaConv.pdf) [[Project page]](https://rubenwiersma.nl/deltaconv) [[Replicability Stamp]](http://www.replicabilitystamp.org#https-github-com-rubenwiersma-deltaconv)
 
 Code for the SIGGRAPH 2022 paper "[DeltaConv: Anisotropic Operators for Geometric Deep Learning on Point Clouds](https://arxiv.org/abs/2111.08799)" by Ruben Wiersma, Ahmad Nasikun, Elmar Eisemann, and Klaus Hildebrandt.
 
