@@ -169,8 +169,9 @@ def fit_vector_mapping(pos, normal, x_basis, y_basis, edge_index, wls, coords):
     h_y = (coefficients[row, 2] + coefficients[row, 4] * coords[:, 0] + 2 * coefficients[row, 5] * coords[:, 1])
 
     # Push forward bases to p_j
-    # In equation (15): \Gamma(u_j, v_j)
+    # In equation (15): \partial_u \Gamma(u_j, v_j)
     gamma_x = x_basis[row] + normal[row] * h_x.unsqueeze(-1)
+    # In equation (15): \partial_v \Gamma(u_j, v_j)
     gamma_y = y_basis[row] + normal[row] * h_y.unsqueeze(-1)
 
     # Determine inverse metric for mapping
