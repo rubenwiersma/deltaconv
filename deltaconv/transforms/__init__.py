@@ -1,4 +1,3 @@
-from tkinter import W
 from .normalize_scale import NormalizeScale
 from .normalize_area import NormalizeArea
 from .normalize_axes import NormalizeAxes
