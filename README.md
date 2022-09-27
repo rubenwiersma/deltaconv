@@ -1,4 +1,4 @@
-# DeltaConv
+            # DeltaConv
 [[Paper]](https://rubenwiersma.nl/assets/pdf/DeltaConv.pdf) [[Project page]](https://rubenwiersma.nl/deltaconv) [[Replicability Stamp]](http://www.replicabilitystamp.org#https-github-com-rubenwiersma-deltaconv)
 
 Code for the SIGGRAPH 2022 paper "[DeltaConv: Anisotropic Operators for Geometric Deep Learning on Point Clouds](https://arxiv.org/abs/2111.08799)" by Ruben Wiersma, Ahmad Nasikun, Elmar Eisemann, and Klaus Hildebrandt.
@@ -50,7 +50,7 @@ If you have already cloned the repository without submodules, you can fix it wit
 2. Install from folder:
 ```bash
 cd [root_folder]
-pip install
+pip install ./
 ```
 
 
