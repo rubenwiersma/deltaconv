@@ -12,6 +12,7 @@ Anisotropic convolution is a central building block of CNNs but challenging to t
 ## Contents
 - [Installation](#installation)
 - [Replicating the experiments](#replicating-the-experiments)
+- [FAQ](#faq)
 - [Tests](#tests)
 - [Citation](#citations)
 
