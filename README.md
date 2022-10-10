@@ -75,14 +75,14 @@ python experiments/train_shapenet.py -h
 
 You can keep track of the training process with tensorboard:
 ```bash
-tensorboard logdir=experiments/runs/shapenet_all
+tensorboard --logdir=experiments/runs/shapenet_all
 ```
 
 ### Anisotropic Diffusion
 The code that was used to generate Figure 2 from the paper and Figure 2 and 3 from the supplement is a notebook in the folder `experiments/anisotropic_diffusion`.
 
 ## Data
-ModelNet40, ShapeNet, SHREC, and human body shape segmentation automatically download the datasets from a public repository and place them in the correct folder. The data for ScanObjectNN can be downloaded from the ScanObjectNN website: https://hkust-vgd.github.io/scanobjectnn/. Download and extract the files into `experiments/data/ScanObjectNN/raw`. The folder structure in `experiments/data/ScanObjectNN` should look like:
+ModelNet40, ShapeNet, SHREC, and human body shape segmentation automatically download the datasets from a public repository and place them in the correct folder. Note: this can take a while. The data for ScanObjectNN can be downloaded from the ScanObjectNN website: https://hkust-vgd.github.io/scanobjectnn/. Download and extract the files into `experiments/data/ScanObjectNN/raw`. The folder structure in `experiments/data/ScanObjectNN` should look like:
 ```
 ScanObjectNN
 └─── raw
@@ -96,6 +96,16 @@ ScanObjectNN
           | test_objectdataset.h5
           | ...
 ```
+
+## FAQ
+**Can I run these scripts with low GPU memory?**
+Yes, you can reduce the memory requirements by changing some of the arguments for the train/test scripts. Some suggestions: reduce the batch size (e.g., 8: `--batch_size 8`), reduce the number of points (e.g., 512 points: `--num_points 512`), reduce the number of neighbors per point (e.g., 15 neighbors: `--k 15`). Note that these changes **will** affect the accuracy of the models.
+
+**Can I get the scripts to run faster?**
+There are a couple of ways to reduce the time it takes to train a model. Some of these are explained in the answer on memory (e.g., reduce the number of points, reduce the number of neighbors). For ShapeNet, it's also possible to only train/test on a subset of the data. You can adjust this with the `class_choice` argument, e.g. `--class_choice Airplane`.
+
+**How can I run the bash scripts on Windows?**
+The bash scripts typically only run one or two commands. You could the commands line by line if you are unable to run .sh scripts in your preferred command-line interace.
 
 ## Tests
 In the paper, we make statements about a number of properties of DeltaConv that are either a result of prior work or due to the implementation. We created a test suite to ensure that these properties hold for the implementation, along with unit tests for each module. For example:
