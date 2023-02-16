@@ -14,6 +14,7 @@ Anisotropic convolution is a central building block of CNNs but challenging to t
 - [Replicating the experiments](#replicating-the-experiments)
 - [FAQ](#faq)
 - [Tests](#tests)
+- [Visualization](#visualization)
 - [Citation](#citations)
 
 ## Installation
@@ -108,6 +109,9 @@ There are a couple of ways to reduce the time it takes to train a model. Some of
 **How can I run the bash scripts on Windows?**
 The bash scripts typically only run one or two commands. You could the commands line by line if you are unable to run .sh scripts in your preferred command-line interace.
 
+**How did you render the figures in the paper?**
+The figures in the paper are rendered in Blender, using Animation Nodes to load in the point clouds and features. A detailed explanation can be found in the folder [visualization](https://github.com/rubenwiersma/deltaconv/tree/master/visualization).
+
 ## Tests
 In the paper, we make statements about a number of properties of DeltaConv that are either a result of prior work or due to the implementation. We created a test suite to ensure that these properties hold for the implementation, along with unit tests for each module. For example:
 - Section 3.6, 3.7: Vector MLPs are equivariant to norm-preserving transformations, or coordinate-independent (rotations, reflections)
@@ -119,6 +123,9 @@ In the paper, we make statements about a number of properties of DeltaConv that 
     - `test/geometry/test_grad_div.py`
 - Supplement, section 1: Vectors can be mapped between points with equation (15).
     - `test/geometry/test_grad_div.py`
+    
+## Visualization
+The figures in the paper are rendered in Blender, using Animation Nodes to load in the point clouds and features. A detailed explanation can be found in the folder [visualization](https://github.com/rubenwiersma/deltaconv/tree/master/visualization).
 
 ## Citations
 Please cite our paper if this code contributes to an academic publication:
