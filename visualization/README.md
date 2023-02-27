@@ -6,7 +6,7 @@ We used the scripts in `ply_utils.py` to export the features in the network per 
 
 This ply file contains the point positions, a scalar per vertex with the feature activations, a vector per vertex with the vector features, and the local tangent basis at each point. The Animation Nodes script in Blender reads the ply file and adds vectors to the points.
 
-You can find a variant of the [Animation Nodes script in a Blender file here](https://github.com/rubenwiersma/blender-pointcloud) -- it works with [Animation Nodes](https://animation-nodes.com/) and should work with Blender <= 2.9.7.
+You can find the [Animation Nodes script in a Blender file here](https://github.com/rubenwiersma/deltaconv/visualization/pointcloud_features.blend) -- it works with [Animation Nodes](https://animation-nodes.com/) and should work with Blender <= 2.9.7. Instructions for how to use this file are in the [blender pointcloud repository](https://github.com/rubenwiersma/blender-pointcloud).
 
 The vector features are encoded as two coefficients for a tangent basis. If you want a 3D vector to visualize, you can simply compute:
 ```
