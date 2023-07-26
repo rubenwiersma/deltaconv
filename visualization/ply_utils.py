@@ -3,7 +3,7 @@ from plyfile import PlyData, PlyElement
 
 def save_ply(data, filename, i=None):
     """
-    Saves point cloud Data objects with the following fields:
+    Saves point cloud Data object in `data` to `filename` with the following fields:
     pos - positions
     norm - normals
     vec - vectors at points, in 3D coordinates
@@ -49,13 +49,27 @@ def save_ply(data, filename, i=None):
 
 def save_feature(filename, pos, normal, x_basis, y_basis, xs, vs=None, batch=None, i=None, y=None):
     """
-    Saves point cloud Data objects with the following fields:
-    pos - positions
-    norm - normals
-    vec - vectors at points, in 3D coordinates
-    color - color of each point
-    y - label of each point
-    scalar - a scalar function at each point
+    Saves point cloud data to `filename` and expects features directly from a DeltaConv layer
+    without needing to convert vector features to ambient space (3D coordinates).
+
+    The feature works for single point clouds with N points, as well as B batches of point clouds.
+    In the case you are feeding batches to point clouds, be sure to also pass `batch` and `i`.
+    Each point cloud in the batch could have a different number of points, but we'll use N to denote
+    the number of points in each point cloud.
+
+    Args:
+        filename (str): Root of the filename. Will be appended with _shape[i]_feat[j].ply.
+        pos (torch.tensor): [N * B, 3] tensor of point cloud positions.
+        normal (torch.tensor): [N * B, 3] tensor of point cloud normals.
+        x_basis (torch.tensor): [N * B, 3] tensor of x-axis of local coordinate frame at each point.
+        y_basis (torch.tensor): [N * B, 3] tensor of y-axis of local coordinate frame at each point.
+        xs (torch.tensor): [N * B, C] tensor of scalar features on the point cloud. The function will output
+                C .ply files; one for each feature.
+        vs (torch.tensor): [N * B, C * 2] tensor of vector features on the point cloud.
+        batch (torch.tensor): [N * B] tensor that identifies the batch id per point.
+        i (int): Denotes which point cloud in the batch will be saved.
+                Only one point cloud is saved at a time.
+        y (torch.tensor): [N] optional tensor denoting the label of each point in the point cloud.
     """
     if i is not None:
         pos = pos[batch == i]
