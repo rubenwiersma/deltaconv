@@ -53,7 +53,7 @@ def save_feature(filename, pos, normal, x_basis, y_basis, xs, vs=None, batch=Non
     without needing to convert vector features to ambient space (3D coordinates).
 
     The feature works for single point clouds with N points, as well as B batches of point clouds.
-    In the case you are feeding batches to point clouds, be sure to also pass `batch` and `i`.
+    In the case you are feeding batches of point clouds, be sure to also pass `batch` and `i`.
     Each point cloud in the batch could have a different number of points, but we'll use N to denote
     the number of points in each point cloud.
 
